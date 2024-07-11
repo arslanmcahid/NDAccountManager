@@ -6,7 +6,7 @@ using Microsoft.Identity.Web;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration, "AzureAd");
+    .AddMicrosoftIdentityWebApi(builder.Configuration, "AzureAd")
 
 // Add services to the container.
 builder.Services.AddControllers();
