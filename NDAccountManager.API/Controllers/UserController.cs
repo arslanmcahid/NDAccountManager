@@ -1,37 +1,62 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Graph;
-using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.Resource;
+using Microsoft.Graph.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace NDAccountManager.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    [Authorize()]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly GraphServiceClient _client;
-        private readonly ITokenAcquisition _token;
+        //private readonly GraphServiceClient _client;
+        //public UserController(GraphServiceClient client)
+        //{
+        //    _client = client;
+        //}
 
-        public UserController(GraphServiceClient client, ITokenAcquisition token)
-        {
-            _client = client;
-            _token = token;
-        }
-
-        [RequiredScope("Forecast.Read")]
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetUserInfo()
         {
             var user = HttpContext.User;
-            var userId = user.Claims.FirstOrDefault(c => c.Type == "oid")?.Value;
-            var userName = user.Identity.Name;
-            var userGroupName = user.Identity.AuthenticationType;
+            var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            //var userGroups = await _client.Users[userId].MemberOf.Request().GetAsync();
-            //var groupNames = userGroups.OfType<Group>().Select(g => g.DisplayName).ToList();
-            return Ok(new { UserId = userId, UserName= userName });
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found.");
+            }
+            var realUserObjectID = user.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+
+            var userRole = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+            var userName = user.Identity.Name;
+            
+            var ipAddress = user.Claims.FirstOrDefault(c => c.Type == "ipaddr").Value;
+
+            // Kullanıcının gruplarını al
+            //var memberOf = await _client.Users[userId].MemberOf.GetAsync();
+
+            //var groupNames = new List<string>();
+
+            //foreach (var directoryObject in memberOf.Value)
+            //{
+            //    if (directoryObject is Group group)
+            //    {
+            //        groupNames.Add(group.DisplayName);
+            //    }
+            //}
+
+            return Ok(new
+            {
+                UserId = userId,
+                UserName = userName,
+                IpAddress = ipAddress,
+                UserRole = userRole
+            });
         }
     }
 }
