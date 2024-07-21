@@ -1,0 +1,70 @@
+/* Genel stil ayarları */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Header stil ayarları */
+  .header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1em;
+  }
+  
+  .header h1 {
+    margin: 0;
+  }
+  
+  .header nav {
+    margin: 1em 0;
+  }
+  
+  .header button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    margin: 0 0.5em;
+    cursor: pointer;
+  }
+  
+  .header button:hover {
+    background-color: #777;
+  }
+  
+  /* MainContent stil ayarları */
+  .main-content {
+    padding: 2em;
+    min-height: 60vh; /* Orta kısım için minimum yükseklik */
+  }
+  
+  .user-info, .data-section {
+    margin-bottom: 2em;
+  }
+  
+  /* Footer stil ayarları */
+  .footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 1em;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  /* Responsive tasarım için medya sorguları */
+  @media (max-width: 768px) {
+    .header button {
+      display: block;
+      margin: 0.5em auto;
+    }
+  
+    .main-content {
+      padding: 1em;
+    }
+  }
+  
