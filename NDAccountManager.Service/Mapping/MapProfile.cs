@@ -15,6 +15,7 @@ namespace NDAccountManager.Service.Mapping
         {
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Account, AccountDto>().ReverseMap();
+            CreateMap<Account, NameAndPasswordAccountDto>().ReverseMap();
         }
     }
 }

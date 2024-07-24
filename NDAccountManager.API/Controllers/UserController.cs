@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
+using NDAccountManager.Core.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -9,15 +10,14 @@ using System.Threading.Tasks;
 
 namespace NDAccountManager.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : CustomBaseController
     {
         //private readonly GraphServiceClient _client;
         //public UserController(GraphServiceClient client)
         //{
         //    _client = client;
         //}
+        private readonly IUserService _userService;
 
         [Authorize]
         [HttpGet]
@@ -49,7 +49,6 @@ namespace NDAccountManager.API.Controllers
             //        groupNames.Add(group.DisplayName);
             //    }
             //}
-
             return Ok(new
             {
                 UserId = userId,

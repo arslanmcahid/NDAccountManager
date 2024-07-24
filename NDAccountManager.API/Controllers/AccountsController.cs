@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NDAccountManager.Core.DTOs;
 using NDAccountManager.Core.Models;
@@ -10,12 +9,33 @@ namespace NDAccountManager.API.Controllers
     public class AccountsController : CustomBaseController
     {
         private readonly IMapper _mapper;
-        private readonly IService<Account> _service;
+        //private readonly IService<Account> _service;
+        private readonly IAccountService _service;
 
-        public AccountsController(IMapper mapper, IService<Account> service)
+        public AccountsController(IMapper mapper, /*IService<Account> service,*/ IAccountService service)
         {
             _mapper = mapper;
             _service = service;
+        }
+
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> AccountsThatPlatformNameIncluded(string value)
+        {
+            return CreateActionResult(await _service.AccountsThatPlatformNameIncluded(value));
+        }
+
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> FilteredAccountsForPlatform()
+        {
+            return CreateActionResult(await _service.FilteredAccountsForPlatform());
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAccountsWithUsernameAndPassword()
+        {
+            return CreateActionResult(await _service.GetAccountsWithUsernameAndPassword());
         }
 
         [HttpGet]
@@ -56,5 +76,7 @@ namespace NDAccountManager.API.Controllers
             await _service.RemoveAsync(account);
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
+
+
     }
 }

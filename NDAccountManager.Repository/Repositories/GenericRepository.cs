@@ -38,7 +38,7 @@ namespace NDAccountManager.Repository.Repositories
 
         public IQueryable<T> GetAll()
         {
-            return _dbSet.AsNoTracking().AsQueryable();//AsNoTracking == EFC dos not store the data it has captured
+            return _dbSet.AsNoTracking().AsQueryable();//AsNoTracking == EFC does not store the data it has captured
         }
 
         public async Task<T> GetByIdAsync(int id)
