@@ -17,6 +17,7 @@ namespace NDAccountManager.Repository
         }
         public DbSet<Account> Accounts{ get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<SharedAccount> SharedAccounts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

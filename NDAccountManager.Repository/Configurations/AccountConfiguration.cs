@@ -9,15 +9,17 @@ namespace NDAccountManager.Repository.Configurations
         public void Configure(EntityTypeBuilder<Account> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x=>x.Id).UseIdentityColumn();
+            builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Platform).IsRequired().HasMaxLength(50);
-            builder.Property(x=>x.Username).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.Username).IsRequired().HasMaxLength(50);
             builder.Property(x => x.PasswordHash).IsRequired();
-            builder.Property(x=>x.IPAddress).IsRequired().HasMaxLength(32);
-            builder.Property(x=>x.Email).IsRequired().HasMaxLength(64);
-            builder.Property(x => x.UserId).IsRequired();
-            //builder.HasOne(x=>x.User).WithMany(x=>x.Accounts);
-            builder.HasOne(x => x.User).WithMany(x => x.Accounts).HasForeignKey(x => x.UserId);
+            builder.Property(x => x.Email).IsRequired().HasMaxLength(64);
+            builder.Property(x => x.Notes).IsRequired();
+            builder.Property(x => x.OwnerId).IsRequired();
+            builder.HasOne(x => x.Owner)
+                .WithMany(x => x.Accounts)
+                .HasForeignKey(x => x.OwnerId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -5,10 +5,10 @@
         public string Platform { get; set; }
         public string Username { get; set; }
         public string PasswordHash { get; set; }
-        public string IPAddress { get; set; }
         public string Email { get; set; }
         public string Notes { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int OwnerId { get; set; }
+        public User Owner { get; set; }
+        public ICollection<SharedAccount> SharedAccounts { get; set; }
     }
 }
