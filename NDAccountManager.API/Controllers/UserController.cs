@@ -25,18 +25,23 @@ namespace NDAccountManager.API.Controllers
         {
             var user = HttpContext.User;
             var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
             if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized("User ID not found.");
             }
-            var realUserObjectID = user.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-
+            var realUserObjectID = user.Claims.FirstOrDefault(c => c.Type ==      "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
             var userRole = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            var userName = user.Identity.Name;
-            
+            var userName = user.Identity.Name; 
             var ipAddress = user.Claims.FirstOrDefault(c => c.Type == "ipaddr").Value;
+            return Ok(new
+            {
+                UserId = userId,
+                UserName = userName,
+                IpAddress = ipAddress,
+                UserRole = userRole
+            });
 
+            
             // Kullanıcının gruplarını al
             //var memberOf = await _client.Users[userId].MemberOf.GetAsync();
 
@@ -49,13 +54,6 @@ namespace NDAccountManager.API.Controllers
             //        groupNames.Add(group.DisplayName);
             //    }
             //}
-            return Ok(new
-            {
-                UserId = userId,
-                UserName = userName,
-                IpAddress = ipAddress,
-                UserRole = userRole
-            });
         }
     }
 }
